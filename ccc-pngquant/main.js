@@ -1,29 +1,26 @@
 'use strict';
-const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminPngquant = require('imagemin-pngquant');
-const Path = require('fire-path');
-const Globby = require('globby');
-// const Fs = require('fire-fs');
-// const Del = require('del');
-// const Async = require('async');
+const TIMEOUT = -1;
+const DEBUG_WORKER = false;
 
-function imageCompress(dest) {
-    dest = dest.replace(/\\/g, '/');
-    let pattern = Path.join(dest, '**/*.{jpg,png}');
-    let paths = Globby.sync(pattern, {});
-    for (let p of paths) {
-        let tmpdest = p;
-        tmpdest = tmpdest.slice(0, tmpdest.lastIndexOf('/'));
-        imagemin([p], tmpdest, {
-            plugins: [
-                imageminJpegtran(),
-                imageminPngquant({quality: '60-80'})
-            ]
-        }).then(() => {
-            Editor.log('Images optimized');
-        });
-    }
+function _runWorker(url, message, opts) {
+    let buildWorker;
+    Editor.App.spawnWorker(url, (worker) => {
+        buildWorker = worker;
+        buildWorker.send(message, opts, (err) => {
+            if (err) {
+                Editor.error(err);
+            }
+            if (buildWorker) {
+                buildWorker.close();
+            }
+            buildWorker = null;
+        }, TIMEOUT);
+    }, DEBUG_WORKER);
+}
+
+function _build_image_compress(opt) {
+    let workerUrl = 'packages://ccc-pngquant/core/BuildWorker';
+    _runWorker(workerUrl, 'ccc-pngquant:run-build-worker', opt);
 }
 
 module.exports = {
@@ -50,8 +47,12 @@ module.exports = {
             Editor.log('Button clicked!');
         },
         'editor:build-finished'(e, options) {
-            cc.log('editor:build-finished ~~~~~~~~~', options);
-            imageCompress(options.dest);
-        }
+            // Editor.log('editor:build-finished ~~~~~~~~~', options);
+            _build_image_compress(options);
+        }, 'ccc-pngquant:state-changed'(e, info, progress) {
+            // Editor.log('editor:state-changed ~~~~~~~~~',info);
+        }, 'ccc-pngquant:state-finished'(e) {
+            Editor.log('ccc-pngquant:state-finished ~~~~~~~~~');
+        },
     },
 };
