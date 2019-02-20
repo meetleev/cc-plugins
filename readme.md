@@ -1,5 +1,5 @@
 # CocosCreater Plugins
-1. **ccc-pngquant(图片压缩), 编译完成后自动压缩图片，支持png，jpg**
+1. **cc-pngquant(图片压缩), 编译完成后自动压缩图片，支持png，jpg**
 
 
 

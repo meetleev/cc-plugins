@@ -1,18 +1,18 @@
 {
-  "name": "ccc-pngquant",
+  "name": "cc-pngquant",
   "version": "0.0.1",
   "description": "The package template for getting started.",
   "author": "Lee",
   "main": "main.js",
   "main-menu": {
-    "i18n:MAIN_MENU.package.title/ccc-pngquant/open": {
-      "message": "ccc-pngquant:open"
+    "i18n:MAIN_MENU.package.title/cc-pngquant/open": {
+      "message": "cc-pngquant:open"
     }
   },
   "panel": {
     "main": "panel/index.js",
     "type": "dockable",
-    "title": "ccc-pngquant",
+    "title": "cc-pngquant",
     "width": 400,
     "height": 300
   },

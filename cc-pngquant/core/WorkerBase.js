@@ -15,7 +15,7 @@ class WorkerBase {
 
     _updateProgress(step) {
         this._progress += step;
-        Editor.Ipc.sendToAll('ccc-pngquant:state-changed',
+        Editor.Ipc.sendToAll('cc-pngquant:state-changed',
             'progress ' + Math.floor(this._progress * 100) + '%',
             this._progress);
     }
@@ -23,7 +23,7 @@ class WorkerBase {
 
 
 function registerWorker(workerClass, runEvent) {
-    Electron.ipcRenderer.on('ccc-pngquant:' + runEvent, (event, opts) => {
+    Electron.ipcRenderer.on('cc-pngquant:' + runEvent, (event, opts) => {
         let worker = new workerClass(opts);
         worker.run(() => {
             event.reply();

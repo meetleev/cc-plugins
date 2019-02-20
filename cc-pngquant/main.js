@@ -19,8 +19,8 @@ function _runWorker(url, message, opts) {
 }
 
 function _build_image_compress(opt) {
-    let workerUrl = 'packages://ccc-pngquant/core/BuildWorker';
-    _runWorker(workerUrl, 'ccc-pngquant:run-build-worker', opt);
+    let workerUrl = 'packages://cc-pngquant/core/BuildWorker';
+    _runWorker(workerUrl, 'cc-pngquant:run-build-worker', opt);
 }
 
 module.exports = {
@@ -36,12 +36,12 @@ module.exports = {
     messages: {
         // 'open'() {
         //     // open entry panel registered in package.json
-        //     Editor.Panel.open('ccc-pngquant');
+        //     Editor.Panel.open('cc-pngquant');
         // },
         // 'say-hello'() {
         //     Editor.log('Hello World!');
         //     // send ipc message to panel
-        //     Editor.Ipc.sendToPanel('ccc-pngquant', 'ccc-pngquant:hello');
+        //     Editor.Ipc.sendToPanel('cc-pngquant', 'cc-pngquant:hello');
         // },
         'clicked'() {
             Editor.log('Button clicked!');
@@ -49,10 +49,10 @@ module.exports = {
         'editor:build-finished'(e, options) {
             // Editor.log('editor:build-finished ~~~~~~~~~', options);
             _build_image_compress(options);
-        }, 'ccc-pngquant:state-changed'(e, info, progress) {
+        }, 'cc-pngquant:state-changed'(e, info, progress) {
             // Editor.log('editor:state-changed ~~~~~~~~~',info);
-        }, 'ccc-pngquant:state-finished'(e) {
-            Editor.log('ccc-pngquant:state-finished ~~~~~~~~~');
+        }, 'cc-pngquant:state-finished'(e) {
+            Editor.log('cc-pngquant:state-finished ~~~~~~~~~');
         },
     },
 };

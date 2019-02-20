@@ -15,7 +15,7 @@ const Globby = require('globby');
 
 class BuildWorker extends WorkerBase {
     run(callback) {
-        Editor.Ipc.sendToAll('ccc-pngquant:state-changed', 'start', 0);
+        Editor.Ipc.sendToAll('cc-pngquant:state-changed', 'start', 0);
         this._callback = callback;
         this.imageCompress(this._opts.dest);
     }
@@ -39,7 +39,7 @@ class BuildWorker extends WorkerBase {
                 idx++;
                 if (idx == filesCounts) {
                     this._callback && this._callback();
-                    Editor.Ipc.sendToAll('ccc-pngquant:state-finished');
+                    Editor.Ipc.sendToAll('cc-pngquant:state-finished');
                 }
             });
         }
