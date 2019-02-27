@@ -1,5 +1,6 @@
 # CocosCreater Plugins
 1. **cc-pngquant(图片压缩), 编译完成后自动压缩图片，支持png，jpg**
+2. **cc-cc-wx-subpackages 编译完成后自动将资源分包**
 
 
 
