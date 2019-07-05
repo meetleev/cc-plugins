@@ -23,15 +23,16 @@ function _build_image_compress(opt) {
     _runWorker(workerUrl, 'cc-pngquant:run-build-worker', opt);
 }
 
+function onBeforeBuildFinish(dest){
+    Editor.log('onBeforeBuildFinish exec!', dest);
+}
+
 module.exports = {
-    load() {
-        // execute when package loaded
+    load () {
     },
 
-    unload() {
-        // execute when package unloaded
+    unload () {
     },
-
     // register your ipc messages here
     messages: {
         // 'open'() {
@@ -51,8 +52,9 @@ module.exports = {
             _build_image_compress(options);
         }, 'cc-pngquant:state-changed'(e, info, progress) {
             // Editor.log('editor:state-changed ~~~~~~~~~',info);
-        }, 'cc-pngquant:state-finished'(e) {
+        }, 'cc-pngquant:state-finished'(e, options) {
             Editor.log('cc-pngquant:state-finished ~~~~~~~~~');
+            onBeforeBuildFinish(options);
         },
     },
 };

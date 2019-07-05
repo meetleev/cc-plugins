@@ -26,7 +26,18 @@ class BuildWorker extends WorkerBase {
         let paths = Globby.sync(pattern, {});
         let filesCounts = paths.length;
         let idx = 0;
+        let newPaths = [];
         for (let p of paths) {
+            let tmpdest = p;
+            tmpdest = tmpdest.slice(0, tmpdest.lastIndexOf('/'));
+            let last2Dir = tmpdest.slice(tmpdest.lastIndexOf('/') + 1, tmpdest.length);
+            if (last2Dir.match(/\.bundle/g)) {
+            } else {
+                newPaths.push(p);
+            }
+        }
+        filesCounts = newPaths.length;
+        for (let p of newPaths) {
             let tmpdest = p;
             tmpdest = tmpdest.slice(0, tmpdest.lastIndexOf('/'));
             imagemin([p], tmpdest, {
@@ -39,7 +50,7 @@ class BuildWorker extends WorkerBase {
                 idx++;
                 if (idx == filesCounts) {
                     this._callback && this._callback();
-                    Editor.Ipc.sendToAll('cc-pngquant:state-finished');
+                    Editor.Ipc.sendToAll('cc-pngquant:state-finished', this._opts);
                 }
             });
         }
