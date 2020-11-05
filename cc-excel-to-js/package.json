@@ -1,0 +1,19 @@
+{
+  "name": "cc-excel-to-js",
+  "version": "1.0.0",
+  "description": "excel to js",
+  "author": "Lee",
+  "main": "main.js",
+  "main-menu": {
+    "i18n:cc-excel-to-js.title/i18n:cc-excel-to-js.open": {
+      "message": "cc-excel-to-js:open"
+    }
+  },
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "title": "cc-excel-to-js",
+    "width": 400,
+    "height": 300
+  }
+}
