@@ -8,4 +8,5 @@ module.exports = {
     'browse': 'browse',
     'success':'success',
     'dirError':'excelDir or outDir is null!',
+    'closeExcelRetry':'please close excel file and retry build',
 };

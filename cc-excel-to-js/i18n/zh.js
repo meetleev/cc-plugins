@@ -8,4 +8,5 @@ module.exports = {
     'browse': '选择目录',
     'success':'成功',
     'dirError':'Excel 目录或输出目录不正确！',
+    'closeExcelRetry':'请关闭excel文件重试',
 };

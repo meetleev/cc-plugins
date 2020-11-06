@@ -65,16 +65,19 @@ module.exports = {
                 // 打印错误的后台可执行程序输出
                 workerProcess.stderr.on('data', function (data) {
                     Editor.log('stderr: ' + data);
+                    Editor.Dialog.messageBox({message: `${Editor.T('cc-excel-to-js.closeExcelRetry')}`});
                 });
 
                 // 退出之后的输出
                 workerProcess.on('close', function (code) {
                     let assetUrl = Editor.assetdb.fspathToUrl(destDir)
-                    // Editor.log('close code：' + code, assetUrl);
-                    if (Editor.assetdb.exists(assetUrl))
-                        Editor.assetdb.refresh(Editor.assetdb.fspathToUrl(destDir))
-                    Editor.Panel.close('cc-excel-to-js');
-                    Editor.Dialog.messageBox({message: `${Editor.T('cc-excel-to-js.success')}`});
+                    Editor.log('cc-excel-to-js close code：' + code, assetUrl);
+                    if (0 === code) {
+                        if (Editor.assetdb.exists(assetUrl))
+                            Editor.assetdb.refresh(Editor.assetdb.fspathToUrl(destDir))
+                        Editor.Panel.close('cc-excel-to-js');
+                        Editor.Dialog.messageBox({message: `${Editor.T('cc-excel-to-js.success')}`});
+                    }
                 });
             } else {
                 Editor.Dialog.messageBox({message: `${Editor.T('cc-excel-to-js.dirError')}`});
