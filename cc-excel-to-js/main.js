@@ -69,8 +69,10 @@ module.exports = {
 
                 // 退出之后的输出
                 workerProcess.on('close', function (code) {
-                    // Editor.log('out code：' + code);
-                    Editor.assetdb.refresh(Editor.assetdb.fspathToUrl(destDir))
+                    let assetUrl = Editor.assetdb.fspathToUrl(destDir)
+                    // Editor.log('close code：' + code, assetUrl);
+                    if (Editor.assetdb.exists(assetUrl))
+                        Editor.assetdb.refresh(Editor.assetdb.fspathToUrl(destDir))
                     Editor.Panel.close('cc-excel-to-js');
                     Editor.Dialog.messageBox({message: `${Editor.T('cc-excel-to-js.success')}`});
                 });
