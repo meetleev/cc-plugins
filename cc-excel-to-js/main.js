@@ -54,8 +54,8 @@ module.exports = {
         },
         'excelToJS'() {
             if (Fs.existsSync(sourceDir) && Fs.existsSync(destDir)) {
-                let cmd = Path.join(Editor.Package.packagePath('cc-excel-to-js'), "process/ExcelToJS.exe")
-                let workerProcess = exec(`${cmd} -s ${sourceDir} -d ${destDir}`);
+                let cmd = Path.join(Editor.Package.packagePath('cc-excel-to-js'), "process/ExcelToCfg.exe")
+                let workerProcess = exec(`${cmd} -s ${sourceDir} -d ${destDir} -ext ts`);
 
                 // 打印正常的后台可执行程序输出
                 workerProcess.stdout.on('data', function (data) {
