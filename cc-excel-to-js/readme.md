@@ -49,4 +49,4 @@ export  {DB_STUDENT_ITEM, DB_STUDENT_ARRAY, }
   **将所需插件拷贝到project/packages目录下**
 
 ## Requirement
-  **CocosCreator 3.x**
+  **CocosCreator 2.x**
