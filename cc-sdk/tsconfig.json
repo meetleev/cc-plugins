@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "es2015",
+      "es2017",
+      "dom"
+    ],
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./bin/.ts",
+    "rootDir": "./",
+    "noEmit": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "isolatedModules": true,
+    "baseUrl": "./",
+    "paths": {
+    },
+    "types": [
+    ]
+  },
+  "include": [
+    "exports/**/*.ts"
+  ]
+}
