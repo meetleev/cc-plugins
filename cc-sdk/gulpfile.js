@@ -119,7 +119,7 @@ async function buildSDKScripts() {
         file: `./bin/${SDK_NAME}.js`,
         format: 'iife',
         esModule: false,
-        sourcemap: true,
+        sourcemap: false,
         name: SDK_NAME,
     });
     // console.log('rp', rollupOutput)
@@ -132,7 +132,7 @@ function clean() {
 exports.clean = gulp.series(clean);
 
 async function buildAPI() {
-    const outDir = ps.join('bin', '.declarations');
+    const outDir = ps.join('bin'/*, '.declarations'*/);
     await fs.emptyDir(outDir);
     return require('./lib/generate-declarations.js').generate({
         engine: __dirname,

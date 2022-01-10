@@ -16,7 +16,7 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "baseUrl": "./",
     "paths": {
     },

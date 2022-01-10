@@ -130,7 +130,7 @@ async function generate(options) {
     const ccDtsFile = ps.join(dirName, 'virtual-ccx.d.ts');
     await (async () => {
         const ccModules = entries.slice().map((extern) => entryMap[extern]);
-        const code = `declare module "ccx" {\n${ccModules.map((moduleId) => `    export * from "${moduleId}";`).join('\n')}\n}`;
+        const code = `declare module 'ccx' {\n${ccModules.map((moduleId) => `    export * from "${moduleId}";`).join('\n')}\n}`;
         await fs.writeFile(ccDtsFile, code, {encoding: 'utf8'});
     })();
 
@@ -152,7 +152,8 @@ async function generate(options) {
             ],
         });
         await Promise.all(giftResult.groups.map(async (group) => {
-            await fs.outputFile(group.path, group.code, {encoding: 'utf8'});
+            let code = group.code.replace(/(module\s+)\"(.*)\"(\s+\{)/g, '$1$2$3')
+            await fs.outputFile(group.path, code, {encoding: 'utf8'});
         }));
     } catch (error) {
         console.error(error);
