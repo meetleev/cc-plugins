@@ -135,8 +135,9 @@ async function buildAPI() {
     const outDir = ps.join('bin'/*, '.declarations'*/);
     await fs.emptyDir(outDir);
     return require('./lib/generate-declarations.js').generate({
-        engine: __dirname,
-        outDir,
+        rootDir: __dirname,
+        outDir: outDir,
+        rootModuleName: SDK_NAME,
         withIndex: true,
         withExports: false,
         withEditorExports: true,

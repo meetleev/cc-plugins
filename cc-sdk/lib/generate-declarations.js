@@ -3,7 +3,7 @@ const ts = require('typescript');
 const gift = require('tfig');
 const ps = require("path");
 
-async function getEngineEntries(engine) {
+async function getSourceEntries(engine) {
     const result = {};
     const entryRootDir = ps.join(engine, 'exports');
     const entryFileNames = await fs.readdir(entryRootDir);
@@ -22,10 +22,10 @@ async function getEngineEntries(engine) {
 async function generate(options) {
     console.log(`Typescript version: ${ts.version}`);
 
-    const {engine, outDir} = options;
+    const {rootDir, outDir, rootModuleName} = options;
     fs.ensureDirSync(outDir);
 
-    const tsConfigPath = ps.join(engine, 'tsconfig.json');
+    const tsConfigPath = ps.join(rootDir, 'tsconfig.json');
 
     const unbundledOutFile = ps.join(outDir, `before-rollup.js`);
     const parsedCommandLine = ts.getParsedCommandLineOfConfigFile(
@@ -123,24 +123,24 @@ async function generate(options) {
         fs.copyFileSync(file, destPath);
     });
 
-    const entryMap = await getEngineEntries(engine);
+    const entryMap = await getSourceEntries(rootDir);
     console.log('entryMap', entryMap);
     const entries = Object.keys(entryMap);
 
-    const ccDtsFile = ps.join(dirName, 'virtual-ccx.d.ts');
+    const dtsFile = ps.join(dirName, 'virtual-dts.d.ts');
     await (async () => {
         const ccModules = entries.slice().map((extern) => entryMap[extern]);
         const code = `declare module 'ccx' {\n${ccModules.map((moduleId) => `    export * from "${moduleId}";`).join('\n')}\n}`;
-        await fs.writeFile(ccDtsFile, code, {encoding: 'utf8'});
+        await fs.writeFile(dtsFile, code, {encoding: 'utf8'});
     })();
 
     console.log(`Bundling...`);
-    let cleanupFiles = [tscOutputDtsFile, ccDtsFile];
+    let cleanupFiles = [tscOutputDtsFile, dtsFile];
     try {
         const giftInputPath = tscOutputDtsFile;
-        const giftOutputPath = ps.join(dirName, 'ccx.d.ts');
+        const giftOutputPath = ps.join(dirName, `${rootModuleName}.d.ts`);
         const giftResult = gift.bundle({
-            input: [giftInputPath, ccDtsFile],
+            input: [giftInputPath, dtsFile],
             /*name: 'cc',
             rootModule: 'index',*/
             entries: {
@@ -148,11 +148,11 @@ async function generate(options) {
             },
             groups: [
                 // {test: /^cc\/.*$/, path: path.join(dirName, 'index.d.ts')},
-                {test: /^cc.*$/, path: giftOutputPath},
+                {test: /^ccx.*$/, path: giftOutputPath},
             ],
         });
         await Promise.all(giftResult.groups.map(async (group) => {
-            let code = group.code.replace(/(module\s+)\"(.*)\"(\s+\{)/g, '$1$2$3')
+            let code = group.code.replace(/(module\s+)\"(.*)\"(\s+\{)/g, `$1${rootModuleName}$3`)
             await fs.outputFile(group.path, code, {encoding: 'utf8'});
         }));
     } catch (error) {
