@@ -21,5 +21,3 @@ function bind(obj, fn) {
         return fn.apply(obj, args.concat(slice.call(arguments)));
     }
 }
-
-ccx.bind = bind;

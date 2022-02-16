@@ -73,6 +73,7 @@ async function buildSDKScripts() {
     });
     const bundle = await rollup.rollup({
         input: './lib/index.ts',
+        external: ['cc'],
         plugins: [
             nodeResolve({
                 extensions: ['.ts', '.js'],
@@ -85,8 +86,8 @@ async function buildSDKScripts() {
                 extensions: ['.ts', '.js'],
                 babelHelpers: 'bundled',
                 comments: false,
-                exclude: ['node_modules/!**'],
-                // include: ["exports/!**!/!*.ts"],
+                // exclude: ['node_modules/!**'],
+                // include: [/*"exports/!**!/!*.ts"*/],
                 plugins: [
                     [babel_plugin_transform_for_of.default, {assumeArray: true}],
                 ],
@@ -121,6 +122,7 @@ async function buildSDKScripts() {
         esModule: false,
         sourcemap: false,
         name: SDK_NAME,
+        globals: {'cc': 'cc'},
     });
     // console.log('rp', rollupOutput)
 }

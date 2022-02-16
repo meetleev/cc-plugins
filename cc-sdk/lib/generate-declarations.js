@@ -48,7 +48,7 @@ async function generate(options) {
 
     // console.log('parsedCommandLine', parsedCommandLine);
     const outputJSPath = ps.join(ps.dirname(tsConfigPath), unbundledOutFile);
-    console.log('outputJSPath', outputJSPath);
+    // console.log('outputJSPath', outputJSPath);
 
     const extName = ps.extname(outputJSPath);
     if (extName !== '.js') {
@@ -109,7 +109,7 @@ async function generate(options) {
     }
 
     const tscOutputDtsFile = ps.join(dirName, baseName + '.d.ts');
-    console.log('tscOutputDtsFile', tscOutputDtsFile)
+    // console.log('tscOutputDtsFile', tscOutputDtsFile)
     if (!fs.existsSync(tscOutputDtsFile)) {
         console.error(`Failed to compile.`);
         return false;
@@ -147,12 +147,15 @@ async function generate(options) {
                 'ccx': 'ccx',
             },
             groups: [
-                // {test: /^cc\/.*$/, path: path.join(dirName, 'index.d.ts')},
                 {test: /^ccx.*$/, path: giftOutputPath},
             ],
         });
         await Promise.all(giftResult.groups.map(async (group) => {
-            let code = group.code.replace(/(module\s+)\"(.*)\"(\s+\{)/g, `$1${rootModuleName}$3`)
+            let code = group.code.replace(/(module\s+)\"(.*)\"(\s+\{)/g, `$1${rootModuleName}$3`);
+            let head = 'export namespace __private';
+            let end = 'export {}';
+            code = code.substring(0, code.search(head)).concat(code.substring(code.search(end)));
+            code = code.replace(/__private._(cc_.*)/g, (match, p1) => `${p1}`.replace('__', '.').replace('_', '.'));
             await fs.outputFile(group.path, code, {encoding: 'utf8'});
         }));
     } catch (error) {

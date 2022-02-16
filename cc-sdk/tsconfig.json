@@ -21,6 +21,7 @@
     "paths": {
     },
     "types": [
+      "./@types/cc"
     ]
   },
   "include": [
