@@ -1,12 +1,12 @@
 import {Node, Size, view, Widget} from 'cc';
 import {Log} from "../../Log";
+import {PlatformUtils} from "./PlatformUtils";
 
 const FB_NAV_HEIGHT = 96;
 
 
 export class ScreenUtils {
     private static instance: ScreenUtils;
-    // private _mMobileFb:boolean =false;
     private _mScreenRatio: number = 0;
     private _viewSize: Size = Size.ZERO;
 
@@ -25,19 +25,16 @@ export class ScreenUtils {
     }
 
     init() {
-        // this._mMobileFb = false;
         this._viewSize = view.getVisibleSize();
         this._mScreenRatio = this._viewSize.height / this._viewSize.width;
-        /*if (PlatformUtils.isFB() && !PlatformUtils.isDesktop() && window.screen && window.screen.height && window.screen.width) {
+        if (PlatformUtils.isFB() && !PlatformUtils.isDesktop() && window.screen && window.screen.height && window.screen.width) {
             this._mScreenRatio = window.screen.height / window.screen.width;
         }
-        if (this._mMobileFb && PlatformUtils.isDesktop()) {
-            this._mScreenRatio = 1.06 * this._mScreenRatio;
-        }
+
         if (this.isFBNavBarOverlay()) {
-            this._winHeight -= FB_NAV_HEIGHT;
-            Log.w("[ScreenUtils] Navagation bar is overlay");
-        }*/
+            this._viewSize.set(this._viewSize.width, this._viewSize.height - FB_NAV_HEIGHT);
+            Log.w("[ScreenUtils] Navigation bar is overlay");
+        }
     }
 
 
@@ -54,14 +51,13 @@ export class ScreenUtils {
     }
 
     isFBNavBarOverlay() {
-        // if (!PlatformUtils.isFB()) {
-        return false;
-        // }
-        /*let a = Math.floor(this._winWidth / window.screen.width * window.screen.height - this._winHeight);
+        if (!PlatformUtils.isFB())
+            return false;
+        let a = Math.floor(this.viewSize.width / window.screen.width * window.screen.height - this.viewSize.height);
         if (this.isQuanMian() || this.isPuTong()) {
             return 0 == a;
         }
-        return a < FB_NAV_HEIGHT;*/
+        return a < FB_NAV_HEIGHT;
     }
 
     getOffset() {

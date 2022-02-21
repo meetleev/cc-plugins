@@ -73,7 +73,7 @@ class NetBufferCache {
         this._requestCache = this._requestCache || [];
         for (let i = 0; i < this._requestCache.length; i++) {
             let pNetBuffer = this._requestCache[i];
-            if (pNetBuffer.getXYID() == xyid) {
+            if (pNetBuffer.getXYID() === xyid) {
                 this._requestCache.splice(i, 1);
                 break;
             }
