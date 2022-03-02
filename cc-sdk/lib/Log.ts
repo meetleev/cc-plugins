@@ -4,7 +4,7 @@ export class Log {
     static l(...args:any[]) {
         if ('object' === typeof console && console.log) {
             // let args = [].slice.call(arguments);
-            args.unshift('[SDK_NAME debug]-> ');
+            args.unshift('[ccx debug]-> ');
             if (bDebug)
                 console.log.apply(console, args);
         }
@@ -13,7 +13,7 @@ export class Log {
     static i(...args:any[]) {
         if ('object' === typeof console && console.info) {
             // let args = [].slice.call(arguments);
-            args.unshift('[SDK_NAME info]-> ');
+            args.unshift('[ccx info]-> ');
             if (bDebug)
                 console.info.apply(console, args);
         }
@@ -22,7 +22,7 @@ export class Log {
     static w(...args:any[]) {
         if ('object' === typeof console && console.warn) {
             // let args = [].slice.call(arguments);
-            args.unshift('[SDK_NAME warning]-> ');
+            args.unshift('[ccx warning]-> ');
             if (bDebug)
                 console.warn.apply(console, args);
         }
@@ -31,7 +31,7 @@ export class Log {
     static e(...args:any[]) {
         if ('object' === typeof console && console.error) {
             // let args = [].slice.call(arguments);
-            args.unshift('[SDK_NAME error]-> ');
+            args.unshift('[ccx error]-> ');
             if (bDebug)
                 console.error.apply(console, args);
         }

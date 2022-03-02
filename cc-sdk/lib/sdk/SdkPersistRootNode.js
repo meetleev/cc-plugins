@@ -1,3 +1,4 @@
+
 class SdkPersistRootNode extends cc.Node {
     constructor() {
         super('SdkPersistRootNode');

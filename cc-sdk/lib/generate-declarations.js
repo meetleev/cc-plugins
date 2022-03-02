@@ -149,13 +149,10 @@ async function generate(options) {
             groups: [
                 {test: /^ccx.*$/, path: giftOutputPath},
             ],
+            nonExportedThirdLibs: ['cc'],
         });
         await Promise.all(giftResult.groups.map(async (group) => {
             let code = group.code.replace(/(module\s+)\"(.*)\"(\s+\{)/g, `$1${rootModuleName}$3`);
-            let head = 'export namespace __private';
-            let end = 'export {}';
-            code = code.substring(0, code.search(head)).concat(code.substring(code.search(end)));
-            code = code.replace(/__private._(cc_.*)/g, (match, p1) => `${p1}`.replace('__', '.').replace('_', '.'));
             await fs.outputFile(group.path, code, {encoding: 'utf8'});
         }));
     } catch (error) {
