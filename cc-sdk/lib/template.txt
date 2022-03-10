@@ -1,5 +1,0 @@
-!function (r) {
-    r.SDK_NAME = r.SDK_NAME || {};
-    <%= data.contents %>
-}(typeof window === 'undefined' ? global : window);
-
